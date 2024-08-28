@@ -6,19 +6,22 @@ import Note from '../notes/noteModel.js';
 
 const Schema = mongoose.Schema;
 
-const ProjectSchema = new Schema({
-    name: {
-        type: String,
-        required: true
+const ProjectSchema = new Schema(
+    {
+        name: {
+            type: String,
+            required: true
+        },
+        tags: [String],
+        description: String,
+        coverImage: String,
+        reports: [Report.schema],
+        boards: [Board.schema],
+        model: String,
+        library: [LibraryItem.schema],
+        notes: [Note.schema]
     },
-    tags: [String],
-    description: String,
-    coverImage: String,
-    reports: [Report.schema],
-    boards: [Board.schema],
-    model: String,
-    library: [LibraryItem.schema],
-    notes: [Note.schema]
-});
+    { timestamps: true }
+)
 
 export default mongoose.model('Project', ProjectSchema);

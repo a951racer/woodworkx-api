@@ -1,0 +1,31 @@
+{
+    "addons": [
+  
+    ],
+    "buildpacks": [
+      {
+        "url": "heroku/nodejs"
+      }
+    ],
+    "env": {
+      "MONGO_CONNECT_STRING": {
+        "required": true
+      },
+      "PORT": {
+        "required": true
+      },
+      "SESSION_SECRET": {
+        "required": true
+      }
+    },
+    "formation": {
+      "web": {
+        "quantity": 1
+      }
+    },
+    "name": "Wood-Workx-API",
+    "scripts": {
+    },
+    "stack": "heroku-24"
+  }
+  

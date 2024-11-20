@@ -5,7 +5,7 @@ import { expect } from 'chai'
 let token
 let projectId
 
-beforeAll( async function() {
+before( async function() {
     token = await login()
     return
 })

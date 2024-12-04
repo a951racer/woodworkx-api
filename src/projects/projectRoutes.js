@@ -1,4 +1,4 @@
-import  userController from '../users/userController.js'
+import userController from '../users/userController.js'
 import projectController from './projectController.js'
 
 export default function(app) {

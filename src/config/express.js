@@ -9,6 +9,7 @@ import userRoutes from '../users/userRoutes.js'
 import projectRoutes from '../projects/projectRoutes.js'
 import jobRoutes from '../jobs/jobRoutes.js'
 import libraryRoutes from '../library/libraryRoutes.js'
+import fileRoutes from '../files/fileRoutes.js'
 
 function configureExpress() {
     dotenv.config();
@@ -39,7 +40,7 @@ function configureExpress() {
     projectRoutes(app)
     jobRoutes(app)
     libraryRoutes(app)
-//    require('../routes/fileRoutes')(app)
+    fileRoutes(app)
 
     app.use(express.static('public'));
     

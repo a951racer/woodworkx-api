@@ -33,6 +33,7 @@ export default {
         const { body } = req
         const { mediaType, id } = body
         const file = req.file
+        console.log('req: ', req)
         let folder = ''
         let fileName = ''
 

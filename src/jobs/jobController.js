@@ -27,7 +27,7 @@ export default {
     },
 
     async deleteJob (req, res) {
-        await Job.remove({ _id: req.params.jobId })
+        const deletedJob = await Job.deleteOne({ _id: req.params.jobId })
         res.json({ message: 'Successfully deleted Job'});
-    }
+    },
 }

@@ -30,6 +30,7 @@ export default {
 */
 
     async addNewFile  (req, res) {
+        console.log('Should be the buffer:', req.file.buffer)
         const { body } = req
         const { mediaType, id } = body
         const file = req.file

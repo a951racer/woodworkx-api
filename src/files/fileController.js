@@ -5,30 +5,6 @@ import boardService from '../boards/boardService.js'
 const Project = mongoose.model('Project')
 
 export default {
-
-/*
-    exports.getFiles = (req, res) => {
-        Project.find()
-            .sort({name: 1})
-            .exec((err, projects) => {
-            if (err) {
-                res.send(err);
-            }
-            res.json(projects);
-        });
-    };
-
-    exports.getProjectWithID = (req, res) => {
-        Project.findById(req.params.projectId)
-            .exec(function(err, project) {
-            if (err) {
-                res.send(err);
-            }
-            res.json(project);
-        })
-    }
-*/
-
     async addNewFile  (req, res) {
         console.log('Should be the buffer:', req.file.buffer)
         const { body } = req
@@ -74,6 +50,7 @@ export default {
         }
 
         try {
+            console.log('parms: ', params)
             const results = await s3bucket.send(new PutObjectCommand(params))
             if (mediaType === 'boards') {
                 boardService.importBoards(id, req.user._id, (err, project) => {

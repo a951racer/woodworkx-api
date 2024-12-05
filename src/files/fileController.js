@@ -6,7 +6,6 @@ const Project = mongoose.model('Project')
 
 export default {
     async addNewFile  (req, res) {
-        console.log('Should be the buffer:', req.file.buffer)
         const { body } = req
         const { mediaType, id } = body
         const file = req.file
@@ -50,7 +49,6 @@ export default {
         }
 
         try {
-            console.log('parms: ', params)
             const results = await s3bucket.send(new PutObjectCommand(params))
             if (mediaType === 'boards') {
                 boardService.importBoards(id, req.user._id, (err, project) => {

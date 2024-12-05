@@ -1,6 +1,5 @@
-//const AWS = require('aws-sdk')
-import mongoose from 'mongoose'
-//import { parse } 'csv-parse'
+import { S3Client, GetObjectCommand  } from '@aws-sdk/client-s3'
+import { parse } from 'csv-parse'
 
 import Project from '../projects/projectModel.js'
 import User from '../users/userModel.js'
@@ -15,20 +14,19 @@ export default {
         let newBoard = {}
         const parser = parse()
 
-        const s3FileURL = process.env.AWS_Uploaded_File_URL_LINK
-        let s3bucket = new AWS.S3({
+        let s3bucket = new S3Client({
             accessKeyId: process.env.AWS_ACCESS_KEY_ID,
             secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
             region: process.env.AWS_REGION
         })
 
         var params = {
-            Bucket: process.env.AWS_BUCKET_NAME + `/${projectId}`,
-            Key: 'Boards.csv',
+            Bucket: process.env.AWS_BUCKET_NAME, // + `/${projectId}`,
+            Key: `${projectId}/Boards.csv`,
         }
 
-        const s3Stream = s3bucket.getObject(params).createReadStream()
-        s3Stream.pipe(parser)
+        const { Body } = await s3bucket.send(new GetObjectCommand(params))
+        Body.pipe(parser)
             .on('data', (data) => {
                 if (data[0] !== 'Part Number') {
                     newBoard = {
@@ -48,15 +46,10 @@ export default {
                     newBoard = {}
                 }
             })
-            .on("end", function () {
+            .on("end", async function () {
                 project.boards = boards
-                Project.findOneAndUpdate({ _id: projectId}, project, { new: true }, (err, project) => {
-                    if (err) {
-                        return callback(err)
-                    }
-                    return callback(null, project)
-                })
-            
+                await Project.findOneAndUpdate({ _id: projectId}, project, { new: true })
+                return callback(null, project)
             })
     }
 
